@@ -1,0 +1,36 @@
+@startuml SocketLib Class
+
+class SocketLibManager{
+    +std::unique_ptr<ISocket> m_socket
+    -Initialize():LibError
+    -Finalize():LibError
+}
+
+interface ISocket{
+    +Initialize():LibError
+}
+
+interface IUdpSock{
+
+}
+
+class UdpSock{
+
+}
+
+interface ITcpSock{
+
+}
+
+class TcpSock{
+
+}
+
+IUdpSock --> UdpSock
+ITcpSock --> TcpSock
+ISocket --> IUdpSock
+ISocket --> ITcpSock
+SocketLibManager *-- ISocket
+SocketLibManager o-- LibError
+
+@enduml
