@@ -1,4 +1,5 @@
 #ifndef INTERFACE_H_
+#define INTERFACE_H_
 
 namespace Network{
 
@@ -19,8 +20,8 @@ public:
 	virtual int Bind() = 0;
 	virtual int Close() = 0;
 	virtual int Listen() = 0;
-	virtual int Recieve() = 0;
-	virtual int Send() = 0;
+	virtual int Recieve(void* buffer) = 0;
+	virtual int Send(void* buffer) = 0;
 };
 
 //! interface
@@ -38,8 +39,8 @@ public:
 	virtual int Finalize() = 0;
 	virtual int Bind() = 0;
 	virtual int Close() = 0;
-	virtual int Recieve() = 0;
-	virtual int Send() = 0;
+	virtual int Recieve(void* buffer) = 0;
+	virtual int Send(void* buffer) = 0;
 };
 }
 
