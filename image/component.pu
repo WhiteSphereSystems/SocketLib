@@ -1,36 +1,62 @@
 @startuml SocketLib Class
-
-class SocketLibManager{
-    +std::unique_ptr<ISocket> m_socket
-    -Initialize():LibError
-    -Finalize():LibError
-}
-
-interface ISocket{
-    +Initialize():LibError
-}
+namespace SocketLib{
 
 interface IUdpSock{
-
-}
-
-class UdpSock{
-
+    {abstract} Initialize(int port, int address, int family)
+    {abstract} Finalize()
+    {abstract} Bind()
+    {abstract} Close()
+    {abstract} Recieve()
+    {abstract} Send()
 }
 
 interface ITcpSock{
+    {abstract} Initialize(int port, int address, int family)
+    {abstract} Finalize()
+    {abstract} Accept()
+    {abstract} Bind()
+    {abstract} Close()
+    {abstract} Listen()
+    {abstract} Recieve()
+    {abstract} Send()
+}
 
+class SocketInfo{
+    -WSADATA m_wsa_data
+    -SOCKET m_sock
+    -sockaddr_in m_mine
+    -sockaddr_in m_oppnent
+}
+
+class UdpSock{
+    +Initialize()
+    +Finalize()
+    +Bind()
+    +Close()
+    +Recieve()
+    +Send()    
 }
 
 class TcpSock{
+    +Initialize()
+    +Finalize()
+    +Accept()
+    +Bind()
+    +Close()
+    +Listen()
+    +Recieve()
+    +Send()
+}
+
+class SockError{
 
 }
 
-IUdpSock --> UdpSock
-ITcpSock --> TcpSock
-ISocket --> IUdpSock
-ISocket --> ITcpSock
-SocketLibManager *-- ISocket
-SocketLibManager o-- LibError
+IUdpSock <|-- UdpSock
+ITcpSock <|-- TcpSock
+SocketInfo *-- UdpSock
+SocketInfo *-- TcpSock
+SockError <|-- runtime_error
 
+}
 @enduml
