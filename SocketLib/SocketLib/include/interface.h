@@ -17,10 +17,10 @@ public:
 
 	virtual int Initialize(const Address& address, const Port& port, const Family& family)const = 0;
 	virtual int Finalize()const = 0;
-	virtual int Accept()const = 0;
+	virtual int Accept() = 0;
 	virtual int Bind()const = 0;
 	virtual int Close()const = 0;
-	virtual int Listen()const = 0;
+	virtual int Listen(int listen_time)const = 0;
 	virtual int Recieve(char* buffer)const = 0;
 	virtual int Send(char* buffer)const = 0;
 };

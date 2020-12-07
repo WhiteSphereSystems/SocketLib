@@ -1,23 +1,39 @@
 #ifndef TCP_H
 #define TCP_H
 
-#include "interface.h"
-namespace Network {
-	class TcpSock : public Network::ITcpSock {
+#include <memory>
+#include <WS2tcpip.h>
+
+#include "include/interface.h"
+#include "include/socket_info.h"
+
+namespace network{
+	class TcpSock : public ITcpSock {
 	public:
 
-		//TcpSock(int port, int address, int family) : ITcpSock(port, address, family) {};
-		TcpSock(int port, int address, int family);
-		~TcpSock();
+		TcpSock(const Address& address, const Port& port, const Family& family) {
+			Initialize(address, port, family);
+		};
 
-		virtual int Initialize(int port, int address, int family);
-		virtual int Finalize();
-		virtual int Accept();
-		virtual int Bind();
-		virtual int Close();
-		virtual int Listen();
-		virtual int Recieve(void* buffer);
-		virtual int Send(void* buffer);
+		~TcpSock() {
+			Finalize();
+		};
+
+		virtual int Initialize(const Address& address, const Port& port, const Family& family)const override;
+		virtual int Finalize()const override;
+		virtual int Accept()override;
+		virtual int Bind()const override;
+		virtual int Close()const override;
+		virtual int Listen(int listen_time)const override;
+		virtual int Recieve(char* buffer)const override;
+		virtual int Send(char* buffer)const override;
+	private:
+		std::unique_ptr<SocketInfo> m_socket_info;
+		std::unique_ptr<sockaddr_in> m_oppnent;
+		std::unique_ptr<SOCKET> m_oppnent_sock;
+		int oppnent_len;
+
+		int InitSocket(const Address& address, const Port& port, const Family& family)const;
 	};
 
 }

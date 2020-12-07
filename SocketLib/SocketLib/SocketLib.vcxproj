@@ -139,11 +139,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="interface.cpp" />
+    <ClCompile Include="src\interface.cpp" />
+    <ClCompile Include="src\socket_info.cpp" />
     <ClCompile Include="TCPSock.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="interface.h" />
+    <ClInclude Include="include\interface.h" />
+    <ClInclude Include="include\socket_info.h" />
     <ClInclude Include="TCPSock.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
