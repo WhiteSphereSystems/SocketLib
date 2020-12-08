@@ -4,7 +4,7 @@ namespace network {
 int UdpSock::Initialize(const Address& address, const Port& port, const Family& family = AF_INET) {
 	WSAStartup(MAKEWORD(2,0), &this->socket_info->wsadata);
 
-	memset(&this->socket_info->mysockaddr, 0, sizeof(MySockaddr));
+	memset(&this->socket_info->mysockaddr, 0, sizeof(this->socket_info->mysockaddr));
 	//Initialize Send Socket
 	this->InitSocket(address, port, family);
 
