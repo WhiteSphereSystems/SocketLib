@@ -23,7 +23,7 @@ public:
 	int Bind()const override;
 	int Close()const override;
 	int Recieve(char* buffer)const override;
-	int Send(char* buffer)const override;
+	int Send(const char* buffer)const override;
 private:
 	std::unique_ptr<SocketInfo> socket_info;
 
