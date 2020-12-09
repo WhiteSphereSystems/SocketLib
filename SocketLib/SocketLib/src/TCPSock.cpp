@@ -6,11 +6,11 @@ namespace network{
 int TcpSock::Initialize(const Address& address, const Port& port, const Family& family)const {
 	WSAStartup(MAKEWORD(2, 0), &this->m_socket_info->wsadata);
 
-	memset(&this->m_socket_info->mysockaddr, 0, sizeof(MySockaddr));
-
+	memset(&this->m_socket_info->mysockaddr, 0, sizeof(this->m_socket_info->mysockaddr));
 	this->InitSocket(address, port, family);
 
 	this->m_socket_info->socket = socket(family, SOCK_STREAM, 0);
+
 
 	return 0;
 
@@ -18,8 +18,8 @@ int TcpSock::Initialize(const Address& address, const Port& port, const Family& 
 
 int TcpSock::InitSocket(const Address& address, const Port& port, const Family& family)const {
 
-	this->m_socket_info->mysockaddr.sin_port = htons(port);
 	this->m_socket_info->mysockaddr.sin_family = family;
+	this->m_socket_info->mysockaddr.sin_port = htons(port);
 	inet_pton(this->m_socket_info->mysockaddr.sin_family,address.c_str(),&this->m_socket_info->mysockaddr.sin_addr.S_un.S_addr);
 
 	return 0;
@@ -56,6 +56,14 @@ int TcpSock::Accept() {
 
 }
 
+int TcpSock::Connect()const {
+
+	connect(m_socket_info->socket, (struct sockaddr*)&m_socket_info->mysockaddr, sizeof(m_socket_info->mysockaddr));
+
+	return 0;
+
+}
+
 int TcpSock::Send(char* buffer)const {
 
 	send(this->m_socket_info->socket, buffer, sizeof(buffer), 0);
@@ -64,9 +72,7 @@ int TcpSock::Send(char* buffer)const {
 
 }
 
-int TcpSock::Recieve(char* buffer)const {
-
-	memset(buffer, 0, sizeof(buffer));
+int TcpSock::Recieve(char *buffer)const {
 
 	recv(this->m_socket_info->socket, buffer, sizeof(buffer), 0);
 

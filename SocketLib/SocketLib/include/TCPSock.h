@@ -11,7 +11,7 @@ namespace network{
 class TcpSock : public ITcpSock {
 public:
 
-	TcpSock(const Address& address, const Port& port, const Family& family) {
+	TcpSock(const Address& address, const Port& port, const Family& family):m_socket_info(new SocketInfo) {
 		Initialize(address, port, family);
 	};
 
@@ -22,6 +22,7 @@ public:
 	virtual int Initialize(const Address& address, const Port& port, const Family& family)const override;
 	virtual int Finalize()const override;
 	virtual int Accept()override;
+	virtual int Connect()const override;
 	virtual int Bind()const override;
 	virtual int Close()const override;
 	virtual int Listen(int listen_time)const override;
