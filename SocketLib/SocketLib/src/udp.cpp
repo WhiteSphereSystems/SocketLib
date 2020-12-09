@@ -2,9 +2,12 @@
 
 namespace network {
 int UdpSock::Initialize(const Address& address, const Port& port, const Family& family = AF_INET) {
+	this->socket_info->my_sockaddr_size = sizeof(this->socket_info->my_sockaddr);
+	this->socket_info->oppnent_sockaddr_size = sizeof(this->socket_info->oppnent_sockaddr);
+
 	WSAStartup(MAKEWORD(2,0), &this->socket_info->wsadata);
 
-	memset(&this->socket_info->mysockaddr, 0, sizeof(this->socket_info->mysockaddr));
+	memset(&this->socket_info->my_sockaddr, 0, sizeof(this->socket_info->my_sockaddr));
 	//Initialize Send Socket
 	this->InitSocket(address, port, family);
 
@@ -21,8 +24,8 @@ int UdpSock::Finalize()const {
 
 int UdpSock::Bind()const {
 	bind(this->socket_info->socket,
-	reinterpret_cast<sockaddr*>(&this->socket_info->mysockaddr),
-	sizeof(this->socket_info->mysockaddr));
+	reinterpret_cast<sockaddr*>(&this->socket_info->my_sockaddr),
+	sizeof(this->socket_info->my_sockaddr));
 	return 0;
 }
 
@@ -32,26 +35,31 @@ int UdpSock::Close()const {
 }
 
 int UdpSock::Recieve(char* buffer)const {
-	recvfrom(this->socket_info->socket, buffer, sizeof(buffer), 0, NULL, NULL);
+	recvfrom(this->socket_info->socket,
+	buffer,
+	sizeof(*buffer),
+	0,
+	reinterpret_cast<sockaddr*>(&this->socket_info->oppnent_sockaddr),
+	&this->socket_info->oppnent_sockaddr_size);
 	return 0;
 }
 
-int UdpSock::Send(char* buffer)const {
+int UdpSock::Send(const char* buffer)const {
 	sendto(this->socket_info->socket,
 	buffer,
-	sizeof(buffer),
+	sizeof(*buffer),
 	0,
-	reinterpret_cast<sockaddr*>(&this->socket_info->mysockaddr),
-	sizeof(this->socket_info->mysockaddr));
+	reinterpret_cast<sockaddr*>(&this->socket_info->oppnent_sockaddr),
+	this->socket_info->oppnent_sockaddr_size);
 	return 0;
 }
 
 int UdpSock::InitSocket(const Address& address, const Port& port, const Family& family)const {
-	this->socket_info->mysockaddr.sin_port = htons(port);
-	this->socket_info->mysockaddr.sin_family = family;
-	inet_pton(this->socket_info->mysockaddr.sin_family,
+	this->socket_info->my_sockaddr.sin_port = htons(port);
+	this->socket_info->my_sockaddr.sin_family = family;
+	inet_pton(this->socket_info->my_sockaddr.sin_family,
 	address.c_str(),
-	&this->socket_info->mysockaddr.sin_addr.S_un.S_addr);
+	&this->socket_info->my_sockaddr.sin_addr.S_un.S_addr);
 	return 0;
 }
 }
