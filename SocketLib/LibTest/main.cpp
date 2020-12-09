@@ -6,16 +6,16 @@
 
 int main() {
 
-	std::unique_ptr<network::IUdpSock> sock = std::make_unique<network::UdpSock>("0.0.0.0", 50000, AF_INET);
-	void* recive = nullptr;
+	std::unique_ptr<network::IUdpSock> sock = std::make_unique<network::UdpSock>("127.0.0.1", 50000, AF_INET);
+	void* recieve = nullptr;
 
 	sock->Bind();
 
-	while (sock->Recieve(reinterpret_cast<char*>(recive)) > -1) {
-		
+	while (1) {
+		sock->Recieve(reinterpret_cast<char*>(recieve));
 	}
 
-	std::cout << recive << std::endl;;
+	std::cout << recieve << std::endl;;
 
 	sock->Close();
 
