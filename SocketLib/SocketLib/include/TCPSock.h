@@ -4,8 +4,8 @@
 #include <memory>
 #include <WS2tcpip.h>
 
-#include "include/interface.h"
-#include "include/socket_info.h"
+#include "interface.h"
+#include "socket_info.h"
 
 namespace network{
 class TcpSock : public ITcpSock {
@@ -25,14 +25,13 @@ public:
 	virtual int Connect()const override;
 	virtual int Bind()const override;
 	virtual int Close()const override;
-	virtual int Listen(int listen_time)const override;
+	virtual int Listen(int listen_time_second)const override;
 	virtual int Recieve(char* buffer)const override;
 	virtual int Send(char* buffer)const override;
 private:
 	std::unique_ptr<SocketInfo> m_socket_info;
-	std::unique_ptr<sockaddr_in> m_oppnent;
-	std::unique_ptr<SOCKET> m_oppnent_sock;
-	int oppnent_len;
+
+	unsigned int opponent_addr_len;
 
 	int InitSocket(const Address& address, const Port& port, const Family& family)const;
 };
