@@ -1,4 +1,4 @@
-#include "TCPSock.h"
+#include"../include/TCPSock.h"
 
 namespace network{
 
@@ -28,7 +28,7 @@ int TcpSock::InitSocket(const Address& address, const Port& port, const Family& 
 
 int TcpSock::Bind()const {
 
-	bind(this->m_socket_info->socket, (struct sockaddr*)&this->m_socket_info->mysockaddr, sizeof(this->m_socket_info->mysockaddr));
+	bind(this->m_socket_info->socket, reinterpret_cast<struct sockaddr*>(&this->m_socket_info->mysockaddr), sizeof(this->m_socket_info->mysockaddr));
 
 	return 0;
 
@@ -44,9 +44,9 @@ int TcpSock::Listen(int listen_time)const {
 
 int TcpSock::Accept() {
 
-	this->oppnent_len = sizeof(this->m_oppnent);
+	this->opponent_addr_len = sizeof(this->m_socket_info->opposockaddr);
 
-	this->m_oppnent_sock.reset((SOCKET*)accept(this->m_socket_info->socket, (struct sockaddr*)&this->m_oppnent, &this->oppnent_len));
+	this->m_socket_info->opposock = accept(this->m_socket_info->socket, reinterpret_cast<struct sockaddr*>(&this->m_socket_info->opposockaddr), reinterpret_cast<int*>(&this->opponent_addr_len));
 
 	if (this->m_socket_info->socket == INVALID_SOCKET) {
 		printf("accept : %d\n", WSAGetLastError());
@@ -58,7 +58,7 @@ int TcpSock::Accept() {
 
 int TcpSock::Connect()const {
 
-	connect(m_socket_info->socket, (struct sockaddr*)&m_socket_info->mysockaddr, sizeof(m_socket_info->mysockaddr));
+	connect(m_socket_info->socket, reinterpret_cast<struct sockaddr*>(&m_socket_info->opposockaddr), sizeof(m_socket_info->opposockaddr));
 
 	return 0;
 
@@ -97,4 +97,5 @@ int TcpSock::Finalize()const {
 	return 0;
 
 }
+
 }
