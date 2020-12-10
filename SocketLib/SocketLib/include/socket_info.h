@@ -6,12 +6,15 @@
 #pragma comment(lib, "ws2_32.lib")
 
 using MySockaddr = sockaddr_in;
+using OppoSockAddr = sockaddr_in;
 
 namespace network {
 struct SocketInfo {
 	WSADATA			wsadata;
 	SOCKET			socket;
+	SOCKET			opposock;
 	MySockaddr		mysockaddr;
+	OppoSockAddr opposockaddr;
 };
 }
 
