@@ -139,8 +139,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="src\interface.cpp" />
+    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\socket_info.cpp" />
     <ClCompile Include="src\TCPSock.cpp" />
   </ItemGroup>
