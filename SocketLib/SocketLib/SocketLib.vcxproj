@@ -142,12 +142,12 @@
     <ClCompile Include="src\interface.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\socket_info.cpp" />
-    <ClCompile Include="src\TCPSock.cpp" />
+    <ClCompile Include="src\tcp_sock.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\interface.h" />
     <ClInclude Include="include\socket_info.h" />
-    <ClInclude Include="include\TCPSock.h" />
+    <ClInclude Include="include\tcp_sock.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
