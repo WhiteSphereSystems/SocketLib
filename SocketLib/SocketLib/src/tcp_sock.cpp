@@ -44,9 +44,9 @@ int TcpSock::Listen(int listen_time)const {
 
 int TcpSock::Accept() {
 
-	this->opponent_addr_len = sizeof(this->m_socket_info->opposockaddr);
+	this->opponent_addr_len = sizeof(this->m_socket_info->opponentsockaddr);
 
-	this->m_socket_info->opposock = accept(this->m_socket_info->socket, reinterpret_cast<struct sockaddr*>(&this->m_socket_info->opposockaddr), reinterpret_cast<int*>(&this->opponent_addr_len));
+	this->m_socket_info->opponentsock = accept(this->m_socket_info->socket, reinterpret_cast<struct sockaddr*>(&this->m_socket_info->opponentsockaddr), reinterpret_cast<int*>(&this->opponent_addr_len));
 
 	if (this->m_socket_info->socket == INVALID_SOCKET) {
 		printf("accept : %d\n", WSAGetLastError());
@@ -58,7 +58,7 @@ int TcpSock::Accept() {
 
 int TcpSock::Connect()const {
 
-	connect(m_socket_info->socket, reinterpret_cast<struct sockaddr*>(&m_socket_info->opposockaddr), sizeof(m_socket_info->opposockaddr));
+	connect(m_socket_info->socket, reinterpret_cast<struct sockaddr*>(&m_socket_info->opponentsockaddr), sizeof(m_socket_info->opponentsockaddr));
 
 	return 0;
 
