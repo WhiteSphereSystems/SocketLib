@@ -22,7 +22,7 @@ public:
 	virtual int Bind()const = 0;
 	virtual int Close()const = 0;
 	virtual int Listen(int listen_time)const = 0;
-	virtual int Recieve(const char* buffer)const = 0;
+	virtual int Recieve(char* buffer)const = 0;
 	virtual int Send(const char* buffer)const = 0;
 };
 

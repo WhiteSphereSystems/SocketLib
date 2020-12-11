@@ -26,7 +26,7 @@ public:
 	virtual int Bind()const override;
 	virtual int Close()const override;
 	virtual int Listen(int listen_time_second)const override;
-	virtual int Recieve(const char* buffer)const override;
+	virtual int Recieve(char* buffer)const override;
 	virtual int Send(const char* buffer)const override;
 private:
 	std::unique_ptr<SocketInfo> m_socket_info;

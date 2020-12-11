@@ -72,9 +72,9 @@ int TcpSock::Send(const char* buffer)const {
 
 }
 
-int TcpSock::Recieve(const char *buffer)const {
+int TcpSock::Recieve(char *buffer)const {
 
-	recv(this->m_socket_info->socket, const_cast<char *>(buffer), sizeof(buffer), 0);
+	recv(this->m_socket_info->socket, buffer, sizeof(buffer), 0);
 
 	return 0;
 
