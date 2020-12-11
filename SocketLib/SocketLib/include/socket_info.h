@@ -12,7 +12,6 @@ namespace network {
 struct SocketInfo {
 	WSADATA			wsadata;
 	SOCKET			socket;
-	SOCKET			opponentsock;
 	MySockaddr		mysockaddr;
 	OpponentSockAddr opponentsockaddr;
 };

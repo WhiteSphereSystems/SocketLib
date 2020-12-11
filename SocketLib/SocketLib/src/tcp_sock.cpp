@@ -46,7 +46,7 @@ int TcpSock::Accept() {
 
 	this->opponent_addr_len = sizeof(this->m_socket_info->opponentsockaddr);
 
-	this->m_socket_info->opponentsock = accept(this->m_socket_info->socket, reinterpret_cast<struct sockaddr*>(&this->m_socket_info->opponentsockaddr), reinterpret_cast<int*>(&this->opponent_addr_len));
+	this->m_socket_info->socket = accept(this->m_socket_info->socket, reinterpret_cast<struct sockaddr*>(&this->m_socket_info->opponentsockaddr), reinterpret_cast<int*>(&this->opponent_addr_len));
 
 	if (this->m_socket_info->socket == INVALID_SOCKET) {
 		printf("accept : %d\n", WSAGetLastError());
