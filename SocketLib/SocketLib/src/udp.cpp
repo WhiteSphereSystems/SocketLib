@@ -1,9 +1,14 @@
 #include "../include/udp.h"
 
+#ifdef _DEBUG
+#include <iostream>
+#include <string>
+#endif
+
 namespace network {
 int UdpSock::Initialize(const Address& address, const Port& port, const Family& family = AF_INET) {
 	this->socket_info->my_sockaddr_size = sizeof(this->socket_info->my_sockaddr);
-	this->socket_info->oppnent_sockaddr_size = sizeof(this->socket_info->oppnent_sockaddr);
+	this->socket_info->opponent_sockaddr_size = sizeof(this->socket_info->opponent_sockaddr);
 
 	WSAStartup(MAKEWORD(2,0), &this->socket_info->wsadata);
 
@@ -18,7 +23,6 @@ int UdpSock::Initialize(const Address& address, const Port& port, const Family& 
 
 int UdpSock::Finalize()const {
 	Close();
-	WSACleanup();
 	return 0;
 }
 
@@ -31,26 +35,37 @@ int UdpSock::Bind()const {
 
 int UdpSock::Close()const {
 	closesocket(this->socket_info->socket);
+	WSACleanup();
 	return 0;
 }
 
 int UdpSock::Recieve(char* buffer)const {
-	recvfrom(this->socket_info->socket,
+	int debug = recvfrom(this->socket_info->socket,
 	buffer,
-	sizeof(*buffer),
+	sizeof(buffer),
 	0,
-	reinterpret_cast<sockaddr*>(&this->socket_info->oppnent_sockaddr),
-	&this->socket_info->oppnent_sockaddr_size);
+	reinterpret_cast<sockaddr*>(&this->socket_info->opponent_sockaddr),
+	&this->socket_info->opponent_sockaddr_size);
+
+	if (debug == INVALID_SOCKET) {
+		std::cout << "ERROR:" + std::to_string(WSAGetLastError()) << std::endl;
+	}
+
 	return 0;
 }
 
 int UdpSock::Send(const char* buffer)const {
-	sendto(this->socket_info->socket,
+	int debug = sendto(this->socket_info->socket,
 	buffer,
-	sizeof(*buffer),
+	sizeof(buffer),
 	0,
-	reinterpret_cast<sockaddr*>(&this->socket_info->oppnent_sockaddr),
-	this->socket_info->oppnent_sockaddr_size);
+	reinterpret_cast<sockaddr*>(&this->socket_info->opponent_sockaddr),
+	this->socket_info->opponent_sockaddr_size);
+
+	if (debug == INVALID_SOCKET) {
+		std::cout << "ERROR:" + std::to_string(WSAGetLastError()) << std::endl;
+	}
+
 	return 0;
 }
 
@@ -60,6 +75,7 @@ int UdpSock::InitSocket(const Address& address, const Port& port, const Family& 
 	inet_pton(this->socket_info->my_sockaddr.sin_family,
 	address.c_str(),
 	&this->socket_info->my_sockaddr.sin_addr.S_un.S_addr);
+
 	return 0;
 }
 }
