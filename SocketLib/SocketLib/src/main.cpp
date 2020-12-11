@@ -8,7 +8,6 @@
 
 int main() {
 
-	//network::ITcpSock *sock = &network::TcpSock("127.0.0.1", 12345, AF_INET);
 	std::unique_ptr<network::ITcpSock> sock = std::make_unique<network::TcpSock>("127.0.0.1", 12345, AF_INET);
 	char buffer[32];
 
