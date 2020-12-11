@@ -22,12 +22,13 @@ public:
 	int Finalize()const override;
 	int Bind()const override;
 	int Close()const override;
-	int Recieve(char* buffer)const override;
-	int Send(const char* buffer)const override;
+	int Recieve(char* buffer, int buffer_len)const override;
+	int Send(const Address& to_address, const Port& to_port, const char* buffer, const int& buffer_len, const Family& family = AF_INET)const override;
 private:
 	std::unique_ptr<SocketInfo> socket_info;
 
 	int InitSocket(const Address& address, const Port& port, const Family& family)const;
+	int SetOpponentInfo(const Address& address, const Port& port, const Family& family = AF_INET)const;
 };
 }
 

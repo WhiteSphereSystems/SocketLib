@@ -39,33 +39,40 @@ int UdpSock::Close()const {
 	return 0;
 }
 
-int UdpSock::Recieve(char* buffer)const {
+int UdpSock::Recieve(char* buffer, int buffer_len)const {
 	int debug = recvfrom(this->socket_info->socket,
 	buffer,
-	sizeof(buffer),
+	buffer_len,
 	0,
 	reinterpret_cast<sockaddr*>(&this->socket_info->opponent_sockaddr),
 	&this->socket_info->opponent_sockaddr_size);
 
 	if (debug == INVALID_SOCKET) {
 		std::cout << "ERROR:" + std::to_string(WSAGetLastError()) << std::endl;
+		return -1;
+	}
+
+	if (debug != SOCKET_ERROR) {
+		return 1;
 	}
 
 	return 0;
 }
 
-int UdpSock::Send(const char* buffer)const {
+int UdpSock::Send(const Address& address, const Port& port, const char* buffer, const int& buffer_len, const Family& family)const {
+	//送信先情報の作成
+	SetOpponentInfo(address, port, family);
+
 	int debug = sendto(this->socket_info->socket,
-	buffer,
-	sizeof(buffer),
-	0,
-	reinterpret_cast<sockaddr*>(&this->socket_info->opponent_sockaddr),
-	this->socket_info->opponent_sockaddr_size);
+		buffer,
+		buffer_len,
+		0,
+		reinterpret_cast<sockaddr*>(&this->socket_info->opponent_sockaddr),
+		this->socket_info->opponent_sockaddr_size);
 
 	if (debug == INVALID_SOCKET) {
 		std::cout << "ERROR:" + std::to_string(WSAGetLastError()) << std::endl;
 	}
-
 	return 0;
 }
 
@@ -76,6 +83,15 @@ int UdpSock::InitSocket(const Address& address, const Port& port, const Family& 
 	address.c_str(),
 	&this->socket_info->my_sockaddr.sin_addr.S_un.S_addr);
 
+	return 0;
+}
+
+int UdpSock::SetOpponentInfo(const Address& address, const Port& port, const Family& family)const {
+	this->socket_info->opponent_sockaddr.sin_port = htons(port);
+	this->socket_info->opponent_sockaddr.sin_family = family;
+	inet_pton(this->socket_info->opponent_sockaddr.sin_family,
+		address.c_str(),
+		&this->socket_info->opponent_sockaddr.sin_addr.S_un.S_addr);
 	return 0;
 }
 }

@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "../include/socket_info.h"
+
 namespace network{
 
 using Port = unsigned short;
@@ -35,8 +37,8 @@ public:
 	virtual int Finalize()const = 0;
 	virtual int Bind()const = 0;
 	virtual int Close()const = 0;
-	virtual int Recieve(char* buffer)const = 0;
-	virtual int Send(const char* buffer)const = 0;
+	virtual int Recieve(char* buffer, int buffer_len)const = 0;
+	virtual int Send(const Address& to_address, const Port& to_port, const char* buffer, const int& buffer_len, const Family& family = AF_INET)const = 0;
 };
 }
 

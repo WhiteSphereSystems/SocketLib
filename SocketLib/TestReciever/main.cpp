@@ -6,14 +6,14 @@
 
 int main() {
 
-	std::unique_ptr<network::IUdpSock> sock = std::make_unique<network::UdpSock>("127.0.0.1", 50000, AF_INET);
+	std::unique_ptr<network::IUdpSock> sock = std::make_unique<network::UdpSock>("0.0.0.0", 50000, AF_INET);
 
-	char* buffer = nullptr;
+	char buffer[256] = {0};
 
 	sock->Bind();
 
 	while (1) {
-		sock->Recieve(buffer);
+		sock->Recieve(buffer, sizeof(buffer));
 		if (buffer) {
 			std::cout << std::string(buffer) << std::endl;
 		}
