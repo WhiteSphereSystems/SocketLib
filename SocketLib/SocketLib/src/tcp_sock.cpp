@@ -72,7 +72,7 @@ int TcpSock::Send(const char* buffer)const {
 
 }
 
-int TcpSock::Recieve(char *buffer)const {
+int TcpSock::Recieve(char* buffer)const {
 
 	recv(this->m_socket_info->socket, buffer, sizeof(buffer), 0);
 
