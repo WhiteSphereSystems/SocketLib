@@ -1,10 +1,8 @@
-#include "../include/tcp_sock.h"
-
 #include <iostream>
 #include <memory>
 #include <string>
 
-
+#include "../SocketLib/include/tcp_sock.h"
 
 int main() {
 	//ŽóM‘¤
@@ -13,7 +11,7 @@ int main() {
 	char buffer[32];
 
 	memset(&buffer, 0, sizeof(buffer));
-	
+
 	sock->Connect();
 
 	sock->Recieve(buffer);
@@ -33,7 +31,7 @@ int main() {
 
 	sock->Accept();
 
-	sock->Send(buffer);
+	sock->Send(buffer, sizeof(buffer));
 
 	sock->Close();
 

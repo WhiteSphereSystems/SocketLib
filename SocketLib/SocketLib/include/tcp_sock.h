@@ -5,7 +5,7 @@
 #include <WS2tcpip.h>
 
 #include "interface.h"
-#include "socket_info.h"
+
 
 namespace network{
 class TcpSock : public ITcpSock {
@@ -18,22 +18,23 @@ public:
 	~TcpSock() {
 		Finalize();
 	};
-
-	virtual int Initialize(const Address& address, const Port& port, const Family& family)const override;
-	virtual int Finalize()const override;
+	
 	virtual int Accept()override;
-	virtual int Connect()const override;
+	virtual int Connect(const Address& address, const Port& port, const Family& family = AF_INET)const override;
 	virtual int Bind()const override;
 	virtual int Close()const override;
 	virtual int Listen(int listen_time_second)const override;
-	virtual int Recieve(char* buffer)const override;
-	virtual int Send(const char* buffer)const override;
+	virtual int Recieve(char* buffer, int buffer_size)const override;
+	virtual int Send(const char* buffer, int buffer_size)const override;
 private:
 	std::unique_ptr<SocketInfo> m_socket_info;
 
 	unsigned int opponent_addr_len;
 
+	int Initialize(const Address& address, const Port& port, const Family& family)const;
 	int InitSocket(const Address& address, const Port& port, const Family& family)const;
+	int Finalize()const;
+
 };
 
 }

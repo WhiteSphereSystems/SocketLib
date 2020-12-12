@@ -56,26 +56,37 @@ int TcpSock::Accept() {
 
 }
 
-int TcpSock::Connect()const {
+int TcpSock::Connect(const Address& address, const Port& port, const Family& family)const {
 
-	connect(m_socket_info->socket, reinterpret_cast<struct sockaddr*>(&m_socket_info->mysockaddr), sizeof(m_socket_info->mysockaddr));
+	//connect(m_socket_info->socket, reinterpret_cast<struct sockaddr*>(&m_socket_info->mysockaddr), sizeof(m_socket_info->mysockaddr));
 
+	if (connect(m_socket_info->socket, reinterpret_cast<struct sockaddr*>(&m_socket_info->opponentsockaddr), sizeof(m_socket_info->opponentsockaddr)) == INVALID_SOCKET) {
+		printf("connect : %d\n", WSAGetLastError());
+		return 1;
+	}
 	return 0;
 
 }
 
-int TcpSock::Send(const char* buffer)const {
+int TcpSock::Send(const char* buffer, int buffer_size)const {
 
-	send(this->m_socket_info->socket, buffer, sizeof(buffer), 0);
-
+	//send(this->m_socket_info->socket, buffer, buffer_size, 0);
+	if (send(this->m_socket_info->socket, buffer, buffer_size, 0) == INVALID_SOCKET) {
+		printf("send : %d\n", WSAGetLastError());
+		return 1;
+	}
 	return 0;
 
 }
 
-int TcpSock::Recieve(char* buffer)const {
+int TcpSock::Recieve(char* buffer, int buffer_size)const {
 
-	recv(this->m_socket_info->socket, buffer, sizeof(buffer), 0);
+	//recv(this->m_socket_info->socket, buffer, buffer_size, 0);
 
+	if (recv(this->m_socket_info->socket, buffer, buffer_size, 0) == INVALID_SOCKET) {
+		printf("recieve : %d\n", WSAGetLastError());
+		return 1;
+	}
 	return 0;
 
 }
