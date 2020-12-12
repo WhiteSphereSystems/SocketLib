@@ -58,7 +58,7 @@ int TcpSock::Accept() {
 
 int TcpSock::Connect()const {
 
-	connect(m_socket_info->socket, reinterpret_cast<struct sockaddr*>(&m_socket_info->opponentsockaddr), sizeof(m_socket_info->opponentsockaddr));
+	connect(m_socket_info->socket, reinterpret_cast<struct sockaddr*>(&m_socket_info->mysockaddr), sizeof(m_socket_info->mysockaddr));
 
 	return 0;
 
