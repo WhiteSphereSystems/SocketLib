@@ -10,7 +10,7 @@ int UdpSock::Initialize(const Address& address, const Port& port, const Family& 
 	this->socket_info->my_sockaddr_size = sizeof(this->socket_info->my_sockaddr);
 	this->socket_info->opponent_sockaddr_size = sizeof(this->socket_info->opponent_sockaddr);
 
-	if (!WSAStartup(MAKEWORD(2, 0), &this->socket_info->wsadata)) return -1;
+	WSAStartup(MAKEWORD(2, 0), &this->socket_info->wsadata);
 
 	memset(&this->socket_info->my_sockaddr, 0, sizeof(this->socket_info->my_sockaddr));
 	//Initialize Send Socket
@@ -53,7 +53,7 @@ int UdpSock::Recieve(char* buffer, int buffer_len)const {
 	}
 
 	if (debug != SOCKET_ERROR) {
-		return 1;
+		return -1;
 	}
 
 	return 0;
