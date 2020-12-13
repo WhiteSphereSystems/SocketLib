@@ -6,11 +6,11 @@
 #endif
 
 namespace network {
-int UdpSock::Initialize(const Address& address, const Port& port, const Family& family = AF_INET) {
+int UdpSock::Initialize(const Address& address, const Port& port, const Family& family)const {
 	this->socket_info->my_sockaddr_size = sizeof(this->socket_info->my_sockaddr);
 	this->socket_info->opponent_sockaddr_size = sizeof(this->socket_info->opponent_sockaddr);
 
-	WSAStartup(MAKEWORD(2,0), &this->socket_info->wsadata);
+	if (!WSAStartup(MAKEWORD(2, 0), &this->socket_info->wsadata)) return -1;
 
 	memset(&this->socket_info->my_sockaddr, 0, sizeof(this->socket_info->my_sockaddr));
 	//Initialize Send Socket

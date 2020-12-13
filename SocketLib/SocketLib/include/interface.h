@@ -22,6 +22,7 @@ public:
 	virtual int Accept()const = 0;
 	virtual int Bind()const = 0;
 	virtual int Close()const = 0;
+	virtual int Connect()const = 0;
 	virtual int Listen()const = 0;
 	virtual int Recieve(char* buffer)const = 0;
 	virtual int Send(char* buffer)const = 0;
@@ -33,8 +34,6 @@ public:
 	IUdpSock(){}
 	virtual ~IUdpSock(){}
 
-	virtual int Initialize(const Address& address, const Port& port, const Family& family) = 0;
-	virtual int Finalize()const = 0;
 	virtual int Bind()const = 0;
 	virtual int Close()const = 0;
 	virtual int Recieve(char* buffer, int buffer_len)const = 0;
